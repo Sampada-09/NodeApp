@@ -22,7 +22,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Build the React App
+      - name: Build the Vite App
         run: npm run build
 
       - name: Print Netlify Site ID (for debugging)
@@ -34,4 +34,4 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_DEPLOY_TO_PROD: true
-          build_directory: build
+          build_directory: dist
