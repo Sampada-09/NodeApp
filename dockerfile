@@ -12,7 +12,8 @@ RUN npm run build
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
 
-COPY --from=build /app/build /usr/share/nginx/html
+# Copy the Vite output (dist folder) to Nginx
+COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 10000
 
