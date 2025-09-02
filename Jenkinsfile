@@ -29,10 +29,11 @@ pipeline {
     }
 
     stage('Push Docker Image') {
-      steps {
+    steps {
         sh "docker push ${IMAGE_NAME}"
-      }
+        echo "Docker image pushed to GHCR successfully! -t ${IMAGE_NAME}"
     }
+}
 
     stage('Deploy to Render') {
       steps {
@@ -45,10 +46,10 @@ pipeline {
 
   post {
     success {
-      echo '✅ Docker image pushed to GHCR and deploy triggered on Render!'
+      echo ' Docker image pushed to GHCR and deploy triggered on Render!'
     }
     failure {
-      echo '❌ Pipeline failed'
+      echo ' Pipeline failed'
     }
   }
 }
