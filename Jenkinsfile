@@ -2,9 +2,8 @@ pipeline {
   agent any
 
   environment {
-    GHCR_PAT = credentials('GHCR_PAT')
-    GHCR_USER = 'Sampada-09'
-    GHCR_REPO = 'sampada-09'
+    GHCR_USER = 'Sampada-09'       // GitHub username for login
+    GHCR_REPO = 'sampada-09'       // lowercase for Docker repo
     IMAGE_NAME = "ghcr.io/${GHCR_REPO}/react-frontend:latest"
   }
 
@@ -23,7 +22,9 @@ pipeline {
 
     stage('Login to GHCR') {
       steps {
-        sh "echo ${GHCR_PAT} | docker login ghcr.io -u ${GHCR_USER} --password-stdin"
+        withCredentials([string(credentialsId: 'GHCR_PAT', variable: 'TOKEN')]) {
+          sh 'echo $TOKEN | docker login ghcr.io -u $GHCR_USER --password-stdin'
+        }
       }
     }
 
