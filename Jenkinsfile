@@ -4,7 +4,8 @@ pipeline {
   environment {
     GHCR_PAT = credentials('GHCR_PAT')
     GHCR_USER = 'Sampada-09'
-    IMAGE_NAME = "ghcr.io/${GHCR_USER}/react-frontend:latest"
+    GHCR_REPO = 'sampada-09'
+    IMAGE_NAME = "ghcr.io/${GHCR_REPO}/react-frontend:latest"
   }
 
   stages {
@@ -16,25 +17,24 @@ pipeline {
 
     stage('Build Docker Image') {
       steps {
-        sh 'docker build -t $IMAGE_NAME .'
+        sh "docker build -t ${IMAGE_NAME} ."
       }
     }
 
     stage('Login to GHCR') {
       steps {
-        sh 'echo $GHCR_PAT | docker login ghcr.io -u $GHCR_USER --password-stdin'
+        sh "echo ${GHCR_PAT} | docker login ghcr.io -u ${GHCR_USER} --password-stdin"
       }
     }
 
     stage('Push Docker Image') {
       steps {
-        sh 'docker push $IMAGE_NAME'
+        sh "docker push ${IMAGE_NAME}"
       }
     }
 
     stage('Deploy to Render') {
       steps {
-        // optional: trigger render to redeploy immediately
         withCredentials([string(credentialsId: 'RENDER_DEPLOY_HOOK', variable: 'HOOK')]) {
           sh 'curl "$HOOK"'
         }
