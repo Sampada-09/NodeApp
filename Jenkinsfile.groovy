@@ -1,0 +1,53 @@
+pipeline {
+  agent any
+
+  environment {
+    GHCR_PAT = credentials('GHCR_PAT')
+    GHCR_USER = 'Sampada-09'
+    IMAGE_NAME = "ghcr.io/${GHCR_USER}/react-frontend:latest"
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Build Docker Image') {
+      steps {
+        sh 'docker build -t $IMAGE_NAME .'
+      }
+    }
+
+    stage('Login to GHCR') {
+      steps {
+        sh 'echo $GHCR_PAT | docker login ghcr.io -u $GHCR_USER --password-stdin'
+      }
+    }
+
+    stage('Push Docker Image') {
+      steps {
+        sh 'docker push $IMAGE_NAME'
+      }
+    }
+
+    stage('Deploy to Render') {
+      steps {
+        // optional: trigger render to redeploy immediately
+        withCredentials([string(credentialsId: 'RENDER_DEPLOY_HOOK', variable: 'HOOK')]) {
+          sh 'curl "$HOOK"'
+        }
+      }
+    }
+  }
+
+  post {
+    success {
+      echo '✅ Docker image pushed to GHCR and deploy triggered on Render!'
+    }
+    failure {
+      echo '❌ Pipeline failed'
+    }
+  }
+}
