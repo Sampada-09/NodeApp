@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: deploy-frontend
-    env: docker
-    plan: free
-    branch: main   
-    autoDeploy: true
-    healthCheckPath: /
