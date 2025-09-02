@@ -3,7 +3,7 @@ pipeline {
 
   environment {
     GHCR_PAT = credentials('GHCR_PAT')
-    GHCR_USER = 'Sampada-09'
+    GHCR_USER = 'sampada-09'
     IMAGE_NAME = "ghcr.io/${GHCR_USER}/react-frontend:latest"
   }
 
