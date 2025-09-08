@@ -2,9 +2,9 @@ pipeline {
   agent any
 
   environment {
-    GHCR_USER = 'Sampada-09'       // GitHub username for login
-    GHCR_REPO = 'sampada-09'       // lowercase for Docker repo
-    IMAGE_NAME = "ghcr.io/${GHCR_REPO}/react-frontend:latest"
+    GHCR_USER = 'Sampada-09'
+    // GHCR_REPO = 'sampada-09'
+    IMAGE_NAME = "ghcr.io/react-frontend:latest"
   }
 
   stages {
