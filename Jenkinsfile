@@ -3,8 +3,8 @@ pipeline {
 
   environment {
     GHCR_USER = 'Sampada-09'
-    // GHCR_REPO = 'sampada-09'
-    IMAGE_NAME = "ghcr.io/react-frontend:latest"
+    GHCR_REPO = 'sampada-09'
+    IMAGE_NAME = "ghcr.io/sampada-09/react-frontend:latest"
   }
 
   stages {
